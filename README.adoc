@@ -1,0 +1,35 @@
+= hazelcast-client-springboot
+
+== Build
+
+Compile the project and run tests by hitting:
+[source, shell]
+--
+./mvnw package
+--
+
+Optionally, build the docker image with:
+[source, shell]
+--
+docker build -t hazelcast-client .
+--
+
+== Dependencies
+
+This project depends on a hazelcast-cluster to be up and ready for connections, otherwise the expected behavior upon starting will be throwing the error: "Unable to connect to cluster".
+
+A sample hazelcast-embedded project is available at https://github.com/milenaps/hazelcast-embedded-springboot, forked from the hazelcast-guides repo with same name.
+
+== Run & Validate
+
+Execute the command below to execute the application using Docker:
+[source, shell]
+--
+docker run -p 8090:8090 -e JAVA_OPTS="-Dhazelcast.client.config=config/hazelcast-client-docker.xml -Dhazelcast.cluster.address=hazelcast-cluster" --network hazelcast --name hazelcast-client hazelcast-client
+--
+
+In case you don't have docker installed, or prefer testing this app locally for any reason, you can use your favorite IDE to start it or alternatively execute the following:
+[source, shell]
+--
+./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-Dserver.port=8090 -Dhazelcast.client.config=config/hazelcast-client-local.xml"
+--
